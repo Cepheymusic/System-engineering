@@ -1,0 +1,315 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Swagger Dangerous objects",
+    "description": "Проект автоматизированной системы распознования опасных предметов на объектах досмотра пассажиров",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "msvprosto@mail.ru"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://dangerousobj.swagger.io/"
+    },
+    {
+      "url": "http://dangerousobj.swagger.io/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Dangerous object",
+      "description": "Подозрительные объекты"
+    },
+    {
+      "name": "User",
+      "description": "Пользователи"
+    }
+  ],
+  "paths": {
+    "/user": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Поиск пользователя по ID",
+        "operationId": "getUserById",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID пользователя (логин)",
+            "required": true,
+            "schema": {
+              "maximum": 10,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Пользователь найден",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Ошибка запроса",
+            "content": {}
+          },
+          "404": {
+            "description": "Пользователь не найден",
+            "content": {}
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Регистрация пользователя",
+        "description": "Регистрация нового пользователя",
+        "operationId": "registerUser",
+        "requestBody": {
+          "description": "Данные для регистрации пользователя",
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Пользователь успешно зарегистрирован",
+            "content": {}
+          },
+          "400": {
+            "description": "Неверный запрос",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Удаление пользователя",
+        "description": "Удаление существующего пользователя",
+        "operationId": "deleteUser",
+        "requestBody": {
+          "description": "Данные для регистрации пользователя",
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Пользователь успешно зарегистрирован",
+            "content": {}
+          },
+          "400": {
+            "description": "Неверный запрос",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/dangerous-objects": {
+      "get": {
+        "tags": [
+          "Dangerous object"
+        ],
+        "summary": "Получение опасного объекта",
+        "description": "Получение опасного объекта",
+        "operationId": "getDangerousObject",
+        "requestBody": {
+          "description": "Данные о зарегистрированном опасном объекте",
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/DangerousObject"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Опасный объект успешно зарегистрирован",
+            "content": {}
+          },
+          "400": {
+            "description": "Неверный запрос",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      },
+      "post": {
+        "tags": [
+          "Dangerous object"
+        ],
+        "summary": "Регистрация опасного объекта",
+        "description": "Регистрация багажа по уровню опасности (красный и зелёный)",
+        "operationId": "registerDangerousObject",
+        "requestBody": {
+          "description": "Данные о зарегистрированном опасном объекте",
+          "content": {
+            "*/*": {
+              "schema": {
+                "$ref": "#/components/schemas/DangerousObject"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Опасный объект успешно зарегистрирован",
+            "content": {}
+          },
+          "400": {
+            "description": "Неверный запрос",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/baggage-owner/{baggageId}": {
+      "get": {
+        "tags": [
+          "Dangerous object"
+        ],
+        "summary": "Получение информации о владельце багажа",
+        "description": "Получение информации по ID багажа",
+        "operationId": "getBaggageOwner",
+        "parameters": [
+          {
+            "name": "baggageId",
+            "in": "path",
+            "description": "ID багажа",
+            "required": true,
+            "schema": {
+              "minimum": 1,
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Информация о владельце багажа получена",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaggageOwner"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaggageOwner"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Багаж не найден",
+            "content": {}
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "SecurityUser": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "DangerousObject": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "level": {
+            "type": "string",
+            "enum": [
+              "green",
+              "red"
+            ]
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "BaggageOwner": {
+        "type": "object",
+        "properties": {
+          "ownerId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "contactInfo": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "x-original-swagger-version": "2.0"
+}
